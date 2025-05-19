@@ -9,7 +9,7 @@ export default defineConfig(() => {
     build: {
       outDir: 'build',
       minify: 'terser', // Minify files using Terser
-      sourcemap: 'inline' // Generate source maps
+      sourcemap: 'inline', // Generate source maps
     },
     css: {
       postcss: {
@@ -43,7 +43,10 @@ export default defineConfig(() => {
     },
     server: {
       port: 8080,
-      allowedHosts: ['payebuddy-react-admin-final-p9s8c.ondigitalocean.app'],
+      allowedHosts: [
+        'payebuddy-react-admin-final-p9s8c.ondigitalocean.app',
+        'payeebuddy-react-app-admin-gvohb.ondigitalocean.app',
+      ],
       proxy: {
         // https://vitejs.dev/config/server-options.html
       },
