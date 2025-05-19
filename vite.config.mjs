@@ -8,6 +8,8 @@ export default defineConfig(() => {
     base: './',
     build: {
       outDir: 'build',
+      minify: 'terser', // Minify files using Terser
+      sourcemap: 'inline' // Generate source maps
     },
     css: {
       postcss: {
