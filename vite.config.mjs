@@ -41,10 +41,6 @@ export default defineConfig(() => {
     },
     server: {
       port: 8080,
-      hmr: {
-        host: 'admin.payebuddy.xyz',
-        protocol: 'wss',
-      },
       allowedHosts: ['payeebuddy-react-app-admin-gvohb.ondigitalocean.app', 'admin.payebuddy.xyz'],
       proxy: {
         // https://vitejs.dev/config/server-options.html
