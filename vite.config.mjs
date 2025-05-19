@@ -41,6 +41,7 @@ export default defineConfig(() => {
     },
     server: {
       port: 8080,
+      allowedHosts: ['payebuddy-react-admin-final-p9s8c.ondigitalocean.app'],
       proxy: {
         // https://vitejs.dev/config/server-options.html
       },
