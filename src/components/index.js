@@ -1,23 +1,11 @@
-import AppBreadcrumb from './AppBreadcrumb'
-import AppContent from './AppContent'
-import AppFooter from './AppFooter'
-import AppHeader from './AppHeader'
-import AppHeaderDropdown from './header/AppHeaderDropdown'
-import AppSidebar from './AppSidebar'
-import DocsComponents from './DocsComponents'
-import DocsIcons from './DocsIcons'
-import DocsLink from './DocsLink'
-import DocsExample from './DocsExample'
+import Editor from './Editor'
+import FilterItem from './FilterItem'
+import DropOption from './DropOption'
+import Loader from './Loader'
+import ScrollBar from './ScrollBar'
+import GlobalFooter from './GlobalFooter'
+import Ellipsis from './Ellipsis'
+import * as MyLayout from './Layout/index.js'
+import Page from './Page'
 
-export {
-  AppBreadcrumb,
-  AppContent,
-  AppFooter,
-  AppHeader,
-  AppHeaderDropdown,
-  AppSidebar,
-  DocsComponents,
-  DocsIcons,
-  DocsLink,
-  DocsExample,
-}
+export { MyLayout, Editor, GlobalFooter, Ellipsis, FilterItem, DropOption, Loader, Page, ScrollBar }

@@ -1,1 +1,6 @@
-build/
+*.svg
+*.ejs
+.DS_Store
+.umi
+.umi-production
+src/locales/**/*.json
