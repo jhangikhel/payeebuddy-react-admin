@@ -42,7 +42,7 @@ export default defineConfig(() => {
     server: {
       port: 8080,
       hmr: {
-        host: 'https://admin.payebuddy.xyz',
+        host: 'admin.payebuddy.xyz',
         protocol: 'ws',
       },
       allowedHosts: ['payeebuddy-react-app-admin-gvohb.ondigitalocean.app', 'admin.payebuddy.xyz'],
