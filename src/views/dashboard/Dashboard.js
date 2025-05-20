@@ -54,6 +54,7 @@ import WidgetsBrand from '../widgets/WidgetsBrand'
 import WidgetsDropdown from '../widgets/WidgetsDropdown'
 import MainChart from './MainChart'
 import axios from 'axios'
+import moment from 'moment'
 
 const Dashboard = () => {
   const [allData, setAllData] = useState({
@@ -77,7 +78,7 @@ const Dashboard = () => {
         console.log('RES', res)
         setAllData(res.data)
       })
-      .catch((err) => {})
+      .catch((err) => { })
   }
   const progressExample = [
     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
@@ -353,48 +354,43 @@ const Dashboard = () => {
                     <CTableHeaderCell className="bg-body-tertiary text-center">
                       <CIcon icon={cilPeople} />
                     </CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary">User</CTableHeaderCell>
+                    <CTableHeaderCell className="bg-body-tertiary">Mobile No.</CTableHeaderCell>
                     <CTableHeaderCell className="bg-body-tertiary text-center">
-                      Country
+                      Balance
                     </CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary">Usage</CTableHeaderCell>
                     <CTableHeaderCell className="bg-body-tertiary text-center">
-                      Payment Method
+                      Reward Points
+                    </CTableHeaderCell>
+                    <CTableHeaderCell className="bg-body-tertiary text-center">
+                      Email
                     </CTableHeaderCell>
                     <CTableHeaderCell className="bg-body-tertiary">Activity</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
-                  {tableExample.map((item, index) => (
+                  {allData.recentUsers.map((item, index) => (
                     <CTableRow v-for="item in tableItems" key={index}>
                       <CTableDataCell className="text-center">
-                        <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} />
+                        <CAvatar size="md" src={item.profileImage ? item.profileImage : avatar1} />
                       </CTableDataCell>
                       <CTableDataCell>
-                        <div>{item.user.name}</div>
+                        <div>{item.phoneNumber}</div>
                         <div className="small text-body-secondary text-nowrap">
-                          <span>{item.user.new ? 'New' : 'Recurring'}</span> | Registered:{' '}
-                          {item.user.registered}
+                          Email Verified:<span>{item.emailVerified ? 'Yes' : 'No'}</span>| DOJ:{' '}
+                          {moment(item.creationDate).format('MM-DD-YYYY HH:mm')}
                         </div>
                       </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <CIcon size="xl" icon={item.country.flag} title={item.country.name} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div className="d-flex justify-content-between text-nowrap">
-                          <div className="fw-semibold">{item.usage.value}%</div>
-                          <div className="ms-3">
-                            <small className="text-body-secondary">{item.usage.period}</small>
-                          </div>
-                        </div>
-                        <CProgress thin color={item.usage.color} value={item.usage.value} />
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <CIcon size="xl" icon={item.payment.icon} />
-                      </CTableDataCell>
+
+                      <CTableDataCell className="text-center">${item.balance}</CTableDataCell>
+                      <CTableDataCell className="text-center">${item.rewardPoints}</CTableDataCell>
+
+                      <CTableDataCell className="text-center">{item.email}</CTableDataCell>
+
                       <CTableDataCell>
                         <div className="small text-body-secondary text-nowrap">Last login</div>
-                        <div className="fw-semibold text-nowrap">{item.activity}</div>
+                        <div className="fw-semibold text-nowrap">
+                          {moment(item.lastLoginDate).format('MM-DD-YYYY HH:mm')}
+                        </div>
                       </CTableDataCell>
                     </CTableRow>
                   ))}
