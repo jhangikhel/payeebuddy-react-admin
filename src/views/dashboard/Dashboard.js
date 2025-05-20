@@ -62,7 +62,9 @@ const Dashboard = () => {
     totalEarnFromAds: [],
     recentTransactions: [],
     recentUsers: [],
-    totaltranasction:[]
+    totaltranasction: [],
+    totalVideos: 0,
+    top10Videos: [],
   })
 
   useEffect(() => {

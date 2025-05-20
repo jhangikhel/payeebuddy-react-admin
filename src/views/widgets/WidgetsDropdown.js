@@ -20,7 +20,8 @@ const WidgetsDropdown = (props) => {
   const widgetChartRef1 = useRef(null)
   const widgetChartRef2 = useRef(null)
   const { allData } = props
-  const { totalUsers, users, totalEarnFromAds, totaltranasction } = allData
+  const { totalUsers, users, totalEarnFromAds, totaltranasction, totalVideos, top10Videos } =
+    allData
   const userGraphMonthYear = users.map((u) => {
     return `${monthsName[u._id.month]} ${u._id.year}`
   })
@@ -38,6 +39,12 @@ const WidgetsDropdown = (props) => {
     return u.totalTransactionAmountMonthWise
   })
   const totalTranasction = tranactionGraphEarnTotal.reduce((partialSum, a) => partialSum + a, 0)
+  const top10VideosNames = top10Videos.map((u) => {
+    return u.videoName
+  })
+  const top10VideosWatched = top10Videos.map((u) => {
+    return u.arraySize
+  })
   useEffect(() => {
     document.documentElement.addEventListener('ColorSchemeChange', () => {
       if (widgetChartRef1.current) {
@@ -314,14 +321,14 @@ const WidgetsDropdown = (props) => {
           color="danger"
           value={
             <>
-              44K{' '}
-              <span className="fs-6 fw-normal">
+              {totalVideos}
+              {/* <span className="fs-6 fw-normal">
                 (-23.6% <CIcon icon={cilArrowBottom} />)
-              </span>
+              </span> */}
             </>
           }
-          title="Sessions"
-          action={
+          title="Total ADS"
+          /*  action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
                 <CIcon icon={cilOptions} />
@@ -333,36 +340,19 @@ const WidgetsDropdown = (props) => {
                 <CDropdownItem disabled>Disabled action</CDropdownItem>
               </CDropdownMenu>
             </CDropdown>
-          }
+          } */
           chart={
             <CChartBar
               className="mt-3 mx-3"
               style={{ height: '70px' }}
               data={{
-                labels: [
-                  'January',
-                  'February',
-                  'March',
-                  'April',
-                  'May',
-                  'June',
-                  'July',
-                  'August',
-                  'September',
-                  'October',
-                  'November',
-                  'December',
-                  'January',
-                  'February',
-                  'March',
-                  'April',
-                ],
+                labels: top10VideosNames,
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'No. of user Watched',
                     backgroundColor: 'rgba(255,255,255,.2)',
                     borderColor: 'rgba(255,255,255,.55)',
-                    data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
+                    data: top10VideosWatched,
                     barPercentage: 0.6,
                   },
                 ],
