@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
 import {
@@ -53,8 +53,30 @@ import avatar6 from 'src/assets/images/avatars/6.jpg'
 import WidgetsBrand from '../widgets/WidgetsBrand'
 import WidgetsDropdown from '../widgets/WidgetsDropdown'
 import MainChart from './MainChart'
+import axios from 'axios'
 
 const Dashboard = () => {
+  const [allData, setAllData] = useState({
+    users: [],
+    totalUsers: 0,
+    totalEarnFromAds: [],
+    recentTransactions: [],
+    recentUsers: [],
+    totaltranasction:[]
+  })
+
+  useEffect(() => {
+    getData()
+  }, [])
+  const getData = () => {
+    axios
+      .get('https://payebuddy.xyz/api/users/dashboarduser')
+      .then((res) => {
+        console.log('RES', res)
+        setAllData(res.data)
+      })
+      .catch((err) => {})
+  }
   const progressExample = [
     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
     { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
@@ -178,7 +200,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <WidgetsDropdown className="mb-4" />
+      <WidgetsDropdown allData={allData} className="mb-4" />
       <CCard className="mb-4">
         <CCardBody>
           <CRow>

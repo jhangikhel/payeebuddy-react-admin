@@ -14,11 +14,30 @@ import { getStyle } from '@coreui/utils'
 import { CChartBar, CChartLine } from '@coreui/react-chartjs'
 import CIcon from '@coreui/icons-react'
 import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
+import { monthsName } from '../../assets/common'
 
 const WidgetsDropdown = (props) => {
   const widgetChartRef1 = useRef(null)
   const widgetChartRef2 = useRef(null)
-
+  const { allData } = props
+  const { totalUsers, users, totalEarnFromAds, totaltranasction } = allData
+  const userGraphMonthYear = users.map((u) => {
+    return `${monthsName[u._id.month]} ${u._id.year}`
+  })
+  const userGraphTotal = users.map((u) => {
+    return u.totalUserMonthWise
+  })
+  const rewardsGraphEarnYear = totalEarnFromAds.map((u) => {
+    return `${monthsName[u._id.month]} ${u._id.year}`
+  })
+  const rewardsGraphEarnTotal = totalEarnFromAds.map((u) => {
+    return u.totalTransactionAmountMonthWise
+  })
+  const totalEarnRewards = rewardsGraphEarnTotal.reduce((partialSum, a) => partialSum + a, 0)
+  const tranactionGraphEarnTotal = totaltranasction.map((u) => {
+    return u.totalTransactionAmountMonthWise
+  })
+  const totalTranasction = tranactionGraphEarnTotal.reduce((partialSum, a) => partialSum + a, 0)
   useEffect(() => {
     document.documentElement.addEventListener('ColorSchemeChange', () => {
       if (widgetChartRef1.current) {
@@ -44,40 +63,40 @@ const WidgetsDropdown = (props) => {
           color="primary"
           value={
             <>
-              26K{' '}
-              <span className="fs-6 fw-normal">
+              {totalUsers}{' '}
+              {/* <span className="fs-6 fw-normal">
                 (-12.4% <CIcon icon={cilArrowBottom} />)
-              </span>
+              </span> */}
             </>
           }
-          title="Users"
-          action={
-            <CDropdown alignment="end">
-              <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
-                <CIcon icon={cilOptions} />
-              </CDropdownToggle>
-              <CDropdownMenu>
-                <CDropdownItem>Action</CDropdownItem>
-                <CDropdownItem>Another action</CDropdownItem>
-                <CDropdownItem>Something else here...</CDropdownItem>
-                <CDropdownItem disabled>Disabled action</CDropdownItem>
-              </CDropdownMenu>
-            </CDropdown>
-          }
+          title="Total Users"
+          /* action={
+          <CDropdown alignment="end">
+            <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
+              <CIcon icon={cilOptions} />
+            </CDropdownToggle>
+            <CDropdownMenu>
+              <CDropdownItem>Action</CDropdownItem>
+              <CDropdownItem>Another action</CDropdownItem>
+              <CDropdownItem>Something else here...</CDropdownItem>
+              <CDropdownItem disabled>Disabled action</CDropdownItem>
+            </CDropdownMenu>
+          </CDropdown>
+        } */
           chart={
             <CChartLine
               ref={widgetChartRef1}
               className="mt-3 mx-3"
               style={{ height: '70px' }}
               data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                labels: userGraphMonthYear,
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'Users',
                     backgroundColor: 'transparent',
                     borderColor: 'rgba(255,255,255,.55)',
                     pointBackgroundColor: getStyle('--cui-primary'),
-                    data: [65, 59, 84, 84, 51, 55, 40],
+                    data: userGraphTotal,
                   },
                 ],
               }}
@@ -102,8 +121,8 @@ const WidgetsDropdown = (props) => {
                     },
                   },
                   y: {
-                    min: 30,
-                    max: 89,
+                    min: Math.min.apply(Math, userGraphTotal) - 5,
+                    max: Math.max.apply(Math, userGraphTotal) + 5,
                     display: false,
                     grid: {
                       display: false,
@@ -134,14 +153,14 @@ const WidgetsDropdown = (props) => {
           color="info"
           value={
             <>
-              $6.200{' '}
-              <span className="fs-6 fw-normal">
+              ${totalEarnRewards}
+              {/*  <span className="fs-6 fw-normal">
                 (40.9% <CIcon icon={cilArrowTop} />)
-              </span>
+              </span> */}
             </>
           }
-          title="Income"
-          action={
+          title="Earn Rewards"
+          /* action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
                 <CIcon icon={cilOptions} />
@@ -153,21 +172,21 @@ const WidgetsDropdown = (props) => {
                 <CDropdownItem disabled>Disabled action</CDropdownItem>
               </CDropdownMenu>
             </CDropdown>
-          }
+          } */
           chart={
             <CChartLine
               ref={widgetChartRef2}
               className="mt-3 mx-3"
               style={{ height: '70px' }}
               data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                labels: rewardsGraphEarnYear,
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'Rewards',
                     backgroundColor: 'transparent',
                     borderColor: 'rgba(255,255,255,.55)',
                     pointBackgroundColor: getStyle('--cui-info'),
-                    data: [1, 18, 9, 17, 34, 22, 11],
+                    data: rewardsGraphEarnTotal,
                   },
                 ],
               }}
@@ -192,8 +211,8 @@ const WidgetsDropdown = (props) => {
                     },
                   },
                   y: {
-                    min: -9,
-                    max: 39,
+                    min: Math.min.apply(Math, rewardsGraphEarnTotal) - 5,
+                    max: Math.max.apply(Math, rewardsGraphEarnTotal) + 5,
                     display: false,
                     grid: {
                       display: false,
@@ -223,14 +242,14 @@ const WidgetsDropdown = (props) => {
           color="warning"
           value={
             <>
-              2.49%{' '}
-              <span className="fs-6 fw-normal">
+              ${totalTranasction}
+              {/* <span className="fs-6 fw-normal">
                 (84.7% <CIcon icon={cilArrowTop} />)
-              </span>
+              </span> */}
             </>
           }
-          title="Conversion Rate"
-          action={
+          title="Total Transaction"
+          /*  action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
                 <CIcon icon={cilOptions} />
@@ -242,19 +261,19 @@ const WidgetsDropdown = (props) => {
                 <CDropdownItem disabled>Disabled action</CDropdownItem>
               </CDropdownMenu>
             </CDropdown>
-          }
+          } */
           chart={
             <CChartLine
               className="mt-3"
               style={{ height: '70px' }}
               data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                labels: rewardsGraphEarnYear,
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'Transaction',
                     backgroundColor: 'rgba(255,255,255,.2)',
                     borderColor: 'rgba(255,255,255,.55)',
-                    data: [78, 81, 80, 45, 34, 12, 40],
+                    data: tranactionGraphEarnTotal,
                     fill: true,
                   },
                 ],
