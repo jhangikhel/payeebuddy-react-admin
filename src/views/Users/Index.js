@@ -40,7 +40,7 @@ const Video = () => {
 
     form.append('sponsored', isSponsored.toString())
     axios
-      .post('http://localhost:3000/api/videos/upload', form, {
+      .post('https://payebuddy.xyz/api/videos/upload', form, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
