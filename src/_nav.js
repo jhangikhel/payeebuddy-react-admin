@@ -13,6 +13,7 @@ import {
   cilPuzzle,
   cilSpeedometer,
   cilStar,
+  cilVideo,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -27,7 +28,39 @@ const _nav = [
       text: 'NEW',
     }, */
   },
-  /*  {
+   {
+    component: CNavItem,
+    name: 'Video',
+    to: '/Video',
+    icon: <CIcon icon={cilVideo} customClassName="nav-icon" />,
+    /*  badge: {
+      color: 'info',
+      text: 'NEW',
+    }, */
+  },
+  {
+    component: CNavGroup,
+    name: 'Manage Video',
+    to: '/Video',
+    icon: <CIcon icon={cilVideo} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Video',
+        to: '/Video',
+      },
+      {
+        component: CNavItem,
+        name: 'Add Video',
+        to: '/addVideo',
+      }
+    ],
+  },
+  /* {
+    component: CNavTitle,
+    name: 'Components',
+  },
+  {
     component: CNavTitle,
     name: 'Theme',
   },
@@ -43,10 +76,7 @@ const _nav = [
     to: '/theme/typography',
     icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
   },
-  {
-    component: CNavTitle,
-    name: 'Components',
-  },
+  
   {
     component: CNavGroup,
     name: 'Base',
