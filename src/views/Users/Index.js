@@ -7,7 +7,8 @@ const Video = () => {
   const [selectedFileThumbNail, setSelectedThumbNail] = useState(null)
   const [selectedFileVideo, setSelectedVideo] = useState(null)
   const [videoName, setvideoName] = useState('')
-  const [isSponsored, setIsSponsored] = useState(false)
+  const [isSponsored, setIsSponsored] = useState(false);
+  const [isLoading ,setIsLoading]= useState(false);
   const handleFileChange = (event) => {
     setSelectedThumbNail(event.target.files[0])
 
@@ -29,6 +30,7 @@ const Video = () => {
     }
   }
   const saveVideo = (form1) => {
+    setIsLoading(true);
     var form = new FormData()
     console.log(selectedFileThumbNail)
     console.log(selectedFileVideo)
@@ -45,9 +47,11 @@ const Video = () => {
       })
       .then((response) => {
         console.log('Upload success:', response.data)
+         setIsLoading(false);
       })
       .catch((error) => {
-        console.error('Upload error:', error)
+        console.error('Upload error:', error);
+         setIsLoading(false);
       })
   }
   return (
@@ -105,7 +109,7 @@ const Video = () => {
         />
       </div>
       <div className="mb-3">
-        <CButton type="submit" color="primary">
+        <CButton type="submit" disabled={isLoading} color="primary">
           Submit form
         </CButton>
       </div>

@@ -28,16 +28,7 @@ const _nav = [
       text: 'NEW',
     }, */
   },
-   {
-    component: CNavItem,
-    name: 'Video',
-    to: '/Video',
-    icon: <CIcon icon={cilVideo} customClassName="nav-icon" />,
-    /*  badge: {
-      color: 'info',
-      text: 'NEW',
-    }, */
-  },
+  
   {
     component: CNavGroup,
     name: 'Manage Video',
