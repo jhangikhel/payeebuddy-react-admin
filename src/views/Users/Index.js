@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { CButton, CForm, CFormCheck, CFormInput, CFormSelect, CFormTextarea } from '@coreui/react'
+import { CButton, CForm, CFormCheck, CFormInput, CFormSelect, CFormTextarea, CSpinner } from '@coreui/react'
 import axios from 'axios'
 
 const Video = () => {
@@ -7,15 +7,13 @@ const Video = () => {
   const [selectedFileThumbNail, setSelectedThumbNail] = useState(null)
   const [selectedFileVideo, setSelectedVideo] = useState(null)
   const [videoName, setvideoName] = useState('')
-  const [isSponsored, setIsSponsored] = useState(false);
-  const [isLoading ,setIsLoading]= useState(false);
+  const [isSponsored, setIsSponsored] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const handleFileChange = (event) => {
     setSelectedThumbNail(event.target.files[0])
-
   }
   const handleFileChangeVideo = (event) => {
     setSelectedVideo(event.target.files[0])
-
   }
   const handleSubmit = (event) => {
     const form = event.currentTarget
@@ -30,7 +28,7 @@ const Video = () => {
     }
   }
   const saveVideo = (form1) => {
-    setIsLoading(true);
+    setIsLoading(true)
     var form = new FormData()
     console.log(selectedFileThumbNail)
     console.log(selectedFileVideo)
@@ -47,11 +45,11 @@ const Video = () => {
       })
       .then((response) => {
         console.log('Upload success:', response.data)
-         setIsLoading(false);
+        setIsLoading(false)
       })
       .catch((error) => {
-        console.error('Upload error:', error);
-         setIsLoading(false);
+        console.error('Upload error:', error)
+        setIsLoading(false)
       })
   }
   return (
@@ -105,7 +103,6 @@ const Video = () => {
           required
           accept="video/mp4"
           onChange={handleFileChangeVideo}
-
         />
       </div>
       <div className="mb-3">
@@ -113,6 +110,11 @@ const Video = () => {
           Submit form
         </CButton>
       </div>
+      {isLoading && (
+        <div className="text-center">
+          <CSpinner />
+        </div>
+      )}
     </CForm>
   )
 }

@@ -15,20 +15,24 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+import { ToastComponent } from '../../../components/ToastComponent'
 
 const Login = () => {
   const [validated, setValidated] = useState(false)
+  const [userName, setUserName] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState(false)
   const navigate = useNavigate()
   const handleSubmit = (event) => {
     const form = event.currentTarget
+    event.preventDefault()
+    event.stopPropagation()
     if (form.checkValidity() === false) {
-      event.preventDefault()
-      event.stopPropagation();
       setValidated(true)
-    }
-    else {
-     
-      navigate('dashboard')
+    } else {
+      if (userName.toLowerCase() === 'admin' && password === 'Admin@123') {
+        navigate('dashboard')
+      } else setError(true)
     }
   }
 
@@ -57,6 +61,8 @@ const Login = () => {
                         feedbackInvalid="Please provide a username."
                         required
                         autoComplete="username"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
                       />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
@@ -69,6 +75,8 @@ const Login = () => {
                         autoComplete="current-password"
                         feedbackInvalid="Please provide a password."
                         required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                       />
                     </CInputGroup>
                     <CRow>
@@ -105,7 +113,9 @@ const Login = () => {
             </CCardGroup>
           </CCol>
         </CRow>
+        {error && <ToastComponent msg="Invalid User Name or Password" />}
       </CContainer>
+
     </div>
   )
 }
