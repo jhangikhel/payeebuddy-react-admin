@@ -1,11 +1,13 @@
 import React from 'react'
 
 
+
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
-const ManageVideo = React.lazy(() => import('./views/Users/ManageVideo'))
-const AddVideo = React.lazy(() => import('./views/Users/Index'))
+const ManageVideo = React.lazy(() => import('./views/Video/ManageVideo'))
+const AddVideo = React.lazy(() => import('./views/Video/Index'))
+const ManageUsers = React.lazy(() => import('./views/Users/ManageUsers'))
 // Base
 const Accordion = React.lazy(() => import('./views/base/accordion/Accordion'))
 const Breadcrumbs = React.lazy(() => import('./views/base/breadcrumbs/Breadcrumbs'))
@@ -58,6 +60,7 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/video', name: 'Video', element: ManageVideo },
   { path: '/addVideo', name: 'Add Video', element: AddVideo },
+  { path: '/users', name: 'Users', element: ManageUsers },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },
