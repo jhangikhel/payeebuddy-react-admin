@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { CAvatar, CBadge, CSmartTable } from '@coreui/react-pro'
 import axios from 'axios'
+import moment from 'moment'
 const getStatus = (item, userId) => {
   if (item.type.toLowerCase() === 'reward') {
     return { type: 'Reward', color: 'success' }
   } else {
     if (userId === item.senderId._id) {
-      return { type: 'Sender', color: 'danger' }
+      return { type: 'Sent', color: 'danger' }
     } else if (userId === item.receiverId._id) {
-      return { type: 'Reciever', color: 'success' }
+      return { type: 'Recieved', color: 'success' }
     }
   }
 }
@@ -46,10 +47,15 @@ export const TranactionHistory = ({ userId }) => {
       key: 'receiverEmail',
       label: 'Reciever Email',
     },
+     {
+      key: 'date',
+      label: 'Date And Time',
+    },
     {
       key: 'status',
       label: 'Type',
     },
+   
   ]
 
   return (
@@ -65,6 +71,7 @@ export const TranactionHistory = ({ userId }) => {
       pagination
       scopedColumns={{
         amount: (item) => <td>${item.amount}</td>,
+        date: (item) => <td>{moment(item.date).format('MM-DD-YYYY HH:mm:ss')}</td>,
         receiverId: (item) => <td>{item.receiverId.phoneNumber}</td>,
         receiverName: (item) => (
           <td>{`${item.receiverId.firstName} ${item.receiverId.lastName}`}</td>
