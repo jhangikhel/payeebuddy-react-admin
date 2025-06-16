@@ -29,7 +29,7 @@ const AppSidebar = () => {
   return (
     <CSidebar
       className="border-end"
-      colorScheme="dark"
+      colorScheme="light"
       position="fixed"
       unfoldable={unfoldable}
       visible={sidebarShow}
@@ -39,7 +39,7 @@ const AppSidebar = () => {
     >
       <CSidebarHeader className="border-bottom">
         <CSidebarBrand to="/">
-          <CAvatar customClassName="sidebar-brand-full" src={avatar8} />
+          <CAvatar className="sidebar-brand-full" src={avatar8} />
           <CIcon icon={sygnet} customClassName="sidebar-brand-narrow"></CIcon>
 
           {/*     <CIcon customClassName="sidebar-brand-full" icon={avatar8} height={32} />

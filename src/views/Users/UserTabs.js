@@ -11,20 +11,14 @@ export const UserTabs = ({ userId }) => {
         <CTabs onChange={setSelectedTab} activeItemKey={selectedTab}>
             <CTabList variant="tabs">
                 <CTab itemKey="home">Transactions</CTab>
-                <CTab itemKey="profile">Profile</CTab>
-                <CTab itemKey="contact">Contact</CTab>
+               
                 
             </CTabList>
             <CTabContent>
                 <CTabPanel className="p-3" itemKey="home">
                     <TranactionHistory userId={userId} />
                 </CTabPanel>
-                <CTabPanel className="p-3" itemKey="profile">
-                    Profile tab content
-                </CTabPanel>
-                <CTabPanel className="p-3" itemKey="contact">
-                    Contact tab content
-                </CTabPanel>
+             
                
             </CTabContent>
         </CTabs>
