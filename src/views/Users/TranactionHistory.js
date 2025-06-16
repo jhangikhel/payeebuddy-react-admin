@@ -73,7 +73,7 @@ export const TranactionHistory = ({ userId }) => {
         senderId: (item) => <td>{item.senderId.phoneNumber}</td>,
         status: (item) => (
           <td>
-            <CBadge color={getStatus(item).color}>{getStatus(item).type}</CBadge>
+            <CBadge color={getStatus(item, userId).color}>{getStatus(item, userId).type}</CBadge>
           </td>
         ),
       }}
