@@ -1,279 +1,192 @@
-import React, { useState } from 'react'
-import { CAvatar, CBadge, CButton, CCollapse, CSmartTable } from '@coreui/react-pro'
-
-const getBadge = (status) => {
-  switch (status) {
-    case 'Active': {
-      return 'success'
-    }
-    case 'Inactive': {
-      return 'secondary'
-    }
-    case 'Pending': {
-      return 'warning'
-    }
-    case 'Banned': {
-      return 'danger'
-    }
-    default: {
-      return 'primary'
-    }
-  }
-}
+import React, { useEffect, useState } from 'react'
+import { CAvatar, CBadge, CButton, CCollapse, CFormSwitch, CSmartTable, CTooltip } from '@coreui/react-pro'
+import axios from 'axios'
+import { UserTabs } from './UserTabs'
+import moment from 'moment'
 
 const ManageUsers = () => {
-  const [details, setDetails] = useState([])
-  const columns = [
-   
-    {
-      key: 'name',
-      _style: { width: '20%' },
-    },
-    {
-      key: 'registered',
-      sorter: (item1, item2) => {
-        const a = new Date(item1.registered)
-        const b = new Date(item2.registered)
-        return a > b ? 1 : b > a ? -1 : 0
-      },
-    },
-    {
-      key: 'role',
-      _style: { width: '20%' },
-    },
-    'status',
-    {
-      key: 'show_details',
-      label: '',
-      _style: { width: '1%' },
-      filter: false,
-      sorter: false,
-    },
-  ]
-  const items = [
-    {
-      id: 1,
-      name: 'Samppa Nori',
-      avatar: '1.jpg',
-      registered: '2021/03/01',
-      role: 'Member',
-      status: 'Active',
-    },
-    {
-      id: 2,
-      name: 'Estavan Lykos',
-      avatar: '2.jpg',
-      registered: '2018/02/07',
-      role: 'Staff',
-      status: 'Banned',
-    },
-    {
-      id: 3,
-      name: 'Chetan Mohamed',
-      avatar: '3.jpg',
-      registered: '2020/01/15',
-      role: 'Admin',
-      status: 'Inactive',
-      _selected: true,
-    },
-    {
-      id: 4,
-      name: 'Derick Maximinus',
-      avatar: '4.jpg',
-      registered: '2019/04/05',
-      role: 'Member',
-      status: 'Pending',
-    },
-    {
-      id: 5,
-      name: 'Friderik Dávid',
-      avatar: '5.jpg',
-      registered: '2022/03/25',
-      role: 'Staff',
-      status: 'Active',
-    },
-    {
-      id: 6,
-      name: 'Yiorgos Avraamu',
-      avatar: '6.jpg',
-      registered: '2017/01/01',
-      role: 'Member',
-      status: 'Active',
-    },
-    {
-      id: 7,
-      name: 'Avram Tarasios',
-      avatar: '7.jpg',
-      registered: '2016/02/12',
-      role: 'Staff',
-      status: 'Banned',
-      _selected: true,
-    },
-    {
-      id: 8,
-      name: 'Quintin Ed',
-      avatar: '8.jpg',
-      registered: '2023/01/21',
-      role: 'Admin',
-      status: 'Inactive',
-    },
-    {
-      id: 9,
-      name: 'Enéas Kwadwo',
-      avatar: '9.jpg',
-      registered: '2024/03/10',
-      role: 'Member',
-      status: 'Pending',
-    },
-    {
-      id: 10,
-      name: 'Agapetus Tadeáš',
-      avatar: '10.jpg',
-      registered: '2015/01/10',
-      role: 'Staff',
-      status: 'Active',
-    },
-    {
-      id: 11,
-      name: 'Carwyn Fachtna',
-      avatar: '11.jpg',
-      registered: '2014/04/01',
-      role: 'Member',
-      status: 'Active',
-    },
-    {
-      id: 12,
-      name: 'Nehemiah Tatius',
-      avatar: '12.jpg',
-      registered: '2013/01/05',
-      role: 'Staff',
-      status: 'Banned',
-      _selected: true,
-    },
-    {
-      id: 13,
-      name: 'Ebbe Gemariah',
-      avatar: '13.jpg',
-      registered: '2012/02/25',
-      role: 'Admin',
-      status: 'Inactive',
-    },
-    {
-      id: 14,
-      name: 'Eustorgios Amulius',
-      avatar: '14.jpg',
-      registered: '2011/03/19',
-      role: 'Member',
-      status: 'Pending',
-    },
-    {
-      id: 15,
-      name: 'Leopold Gáspár',
-      avatar: '15.jpg',
-      registered: '2010/02/01',
-      role: 'Staff',
-      status: 'Active',
-    },
-  ]
-
-  const toggleDetails = (id) => {
-    const position = details.indexOf(id)
-    let newDetails = [...details]
-    if (position === -1) {
-      newDetails = [...details, id]
-    } else {
-      newDetails.splice(position, 1)
+    const [details, setDetails] = useState([])
+    const [data, setData] = useState([]);
+    const [selectedUserId, setSelectedUserId] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    useEffect(() => {
+        getUsers()
+    }, []);
+    const getUsers = () => {
+        axios.get(`https://payebuddy.xyz/api/users/allusers?limit=20&page=1`).then((res) => {
+            setData(res.data);
+            setIsLoading(false);
+        })
     }
-    setDetails(newDetails)
-  }
+    const setActivation = (userId) => {
+        setIsLoading(true);
+        axios
+            .put(`https://payebuddy.xyz/api/users/activate/${userId}`)
+            .then((res) => {
+                getUsers();
+            })
+            .catch((err) => {
+                console.log(err)
+                setIsLoading(false);
+            })
+    }
+    const columns = [
+        {
+            key: 'phoneNumber',
+            _style: { width: '20%' },
+        },
+        {
+            key: 'name',
+            _style: { width: '20%' },
+        },
+        {
+            key: 'dob',
+            _style: { width: '20%' },
+        },
+        {
+            key: 'email',
+            _style: { width: '20%' },
+        },
+        {
+            key: 'emailVerified',
+            _style: { width: '20%' },
+        },
 
-  return (
-    <CSmartTable
-      activePage={2}
-      cleaner
-      clickableRows
-      columns={columns}
-      columnFilter
-      columnSorter
-      items={items}
-      itemsPerPageSelect
-      itemsPerPage={5}
-      pagination
-      onFilteredItemsChange={(items) => {
-        console.log('onFilteredItemsChange')
-        console.table(items)
-      }}
-      onSelectedItemsChange={(items) => {
-        console.log('onSelectedItemsChange')
-        console.table(items)
-      }}
-      scopedColumns={{
-        avatar: (item) => (
-          <td>
-            <CAvatar src={`../../images/avatars/${item.avatar}`} />
-          </td>
-        ),
-        registered: (item) => {
-          const date = new Date(item.registered)
-          const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          }
-          return <td>{date.toLocaleDateString('en-US', options)}</td>
+        'balance',
+
+        {
+            key: 'rewardPoints',
+            label: 'Rewards',
+
+            filter: false,
+            sorter: false,
         },
-        status: (item) => (
-          <td>
-            <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
-          </td>
-        ),
-        show_details: (item) => {
-          return (
-            <td className="py-2">
-              <CButton
-                color="primary"
-                variant="outline"
-                shape="square"
-                size="sm"
-                onClick={() => {
-                  toggleDetails(item.id)
-                }}
-              >
-                {details.includes(item.id) ? 'Hide' : 'Show'}
-              </CButton>
-            </td>
-          )
+        {
+            key: 'activate',
+            label: 'Activate',
+            _style: { width: '1%' },
+            filter: false,
+            sorter: false,
         },
-        details: (item) => {
-          return (
-            <CCollapse visible={details.includes(item.id)}>
-              <div className="p-3">
-                <h4>{item.name}</h4>
-                <p className="text-body-secondary">User since: {item.registered}</p>
-                <CButton size="sm" color="info">
-                  User Settings
-                </CButton>
-                <CButton size="sm" color="danger" className="ms-1">
-                  Delete
-                </CButton>
-              </div>
-            </CCollapse>
-          )
+
+        {
+            key: 'show_details',
+            label: 'Action',
+            _style: { width: '1%' },
+            filter: false,
+            sorter: false,
         },
-      }}
-      
-      sorterValue={{ column: 'status', state: 'asc' }}
-      tableFilter
-      tableProps={{
-        className: 'add-this-custom-class',
-        responsive: true,
-        striped: true,
-        hover: true,
-      }}
-      tableBodyProps={{
-        className: 'align-middle',
-      }}
-    />
-  )
+    ]
+
+    const toggleDetails = (id) => {
+        const position = details.indexOf(id)
+        let newDetails = [...details]
+        if (position === -1) {
+            newDetails = [id]
+            setSelectedUserId(id);
+        } else {
+            newDetails.splice(position, 1)
+        }
+        setDetails(newDetails)
+
+    }
+
+    return (
+        <CSmartTable
+            activePage={2}
+
+            clickableRows
+            columns={columns}
+
+            items={data}
+            itemsPerPageSelect
+            itemsPerPage={5}
+            pagination
+            onFilteredItemsChange={(items) => {
+                console.log('onFilteredItemsChange')
+                console.table(items)
+            }}
+            onSelectedItemsChange={(items) => {
+                console.log('onSelectedItemsChange')
+                console.table(items)
+            }}
+            scopedColumns={{
+                registered: (item) => {
+                    const date = new Date(item.registered)
+                    const options = {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                    }
+                    return <td>{date.toLocaleDateString('en-US', options)}</td>
+                },
+                name: (item) => <td>{`${item.firstName} ${item.lastName}`}</td>,
+                emailVerified: (item) => <td>{item.emailVerified ? "Yes" : "No"}</td>,
+                balance: (item) => <td>${item.balance}</td>,
+                dob: (item) => <td>{moment(item.dob).format('MM-DD-YYYY')}</td>,
+                rewardPoints: (item) => <td>${item.rewardPoints}</td>,
+                show_details: (item) => {
+                    return (
+                        <td className="py-2">
+                            <CButton
+                                disabled={isLoading}
+                                color="primary"
+                                variant="outline"
+                                shape="square"
+                                size="sm"
+                                onClick={() => {
+                                    toggleDetails(item._id)
+                                }}
+                            >
+                                {details.includes(item._id) ? 'Hide Details' : 'Show Details'}
+                            </CButton>
+                        </td>
+                    )
+                },
+                details: (item) => {
+                    return (
+                        <CCollapse visible={details.includes(item._id)}>
+                            {details.includes(item._id) &&
+                                <UserTabs userId={selectedUserId} />
+                            }
+                        </CCollapse>
+                    )
+                },
+                activate: (item) => {
+                    return (
+                        <td className="py-2">
+                            <CTooltip
+                                content={item.activate ? "Activate" : "Deactivate"}
+                                placement="top"
+
+                            >
+                                <CFormSwitch
+                                    size="xl"
+                                    checked={item.activate}
+                                    onChange={(e) => {
+                                        setActivation(item._id)
+                                    }}
+                                    style={{ cursor: "pointer" }}
+                                    disabled={isLoading}
+                                />
+                            </CTooltip>
+                        </td>
+                    )
+                },
+
+            }}
+            sorterValue={{ column: 'status', state: 'asc' }}
+
+            tableProps={{
+                className: 'add-this-custom-class',
+                responsive: true,
+                striped: true,
+                hover: true,
+            }}
+            tableBodyProps={{
+                className: 'align-middle',
+            }}
+        />
+    )
 }
-export default ManageUsers;
+export default ManageUsers
