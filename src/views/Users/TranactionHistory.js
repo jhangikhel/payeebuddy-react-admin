@@ -13,16 +13,20 @@ const getStatus = (item, userId) => {
     }
   }
 }
-export const TranactionHistory = ({ userId }) => {
+export const TranactionHistory = ({ userId, isRewards = false }) => {
   const [transactionsData, setTransactionData] = useState([])
   useEffect(() => {
     if (userId) {
       axios
         .get(`https://payebuddy.xyz/api/transactions/historyAdmin/${userId}?limit=all&offset=0`)
         .then((res) => {
-          setTransactionData(res.data)
+          if (isRewards) {
+            setTransactionData(res.data?.filter(f => f.type === "reward"))
+          }
+          else
+            setTransactionData(res.data)
         })
-        .catch((err) => {})
+        .catch((err) => { })
     }
   }, [userId])
   const columns = [
@@ -47,7 +51,7 @@ export const TranactionHistory = ({ userId }) => {
       key: 'receiverEmail',
       label: 'Reciever Email',
     },
-     {
+    {
       key: 'date',
       label: 'Date And Time',
     },
@@ -55,7 +59,7 @@ export const TranactionHistory = ({ userId }) => {
       key: 'status',
       label: 'Type',
     },
-   
+
   ]
 
   return (

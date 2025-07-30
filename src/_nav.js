@@ -10,6 +10,7 @@ import {
   cilExternalLink,
   cilNotes,
   cilPencil,
+  cilPeople,
   cilPuzzle,
   cilSpeedometer,
   cilStar,
@@ -24,10 +25,7 @@ const _nav = [
     name: 'Dashboard',
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    /*  badge: {
-      color: 'info',
-      text: 'NEW',
-    }, */
+   
   },
   
   {
@@ -60,6 +58,13 @@ const _nav = [
         to: '/users',
       }
     ],
+  },
+  {
+    component: CNavItem,
+    name: 'Login History',
+    to: '/loginhistory',
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+   
   },
   /* {
     component: CNavTitle,

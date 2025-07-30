@@ -156,6 +156,7 @@ const ManageUsers = () => {
                     return (
                         <td className="py-2">
                             <CTooltip
+                            delay={{ show: 500, hide: 100 }}
                                 content={item.activate ? "Activate" : "Deactivate"}
                                 placement="top"
 
