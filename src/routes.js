@@ -6,7 +6,8 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 const ManageVideo = React.lazy(() => import('./views/Video/ManageVideo'))
-const LoginHistory = React.lazy(() => import('./views/pages/LoginHistory/LoginHistory'))
+const LoginHistory = React.lazy(() => import('./views/pages/LoginHistory/LoginHistory'));
+const TransactionReport = React.lazy(() => import('./views/reports/TransactionReport'))
 const AddVideo = React.lazy(() => import('./views/Video/Index'))
 const ManageUsers = React.lazy(() => import('./views/Users/ManageUsers'))
 // Base
@@ -61,6 +62,7 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/video', name: 'Video', element: ManageVideo },
   { path: '/loginhistory', name: 'Login Logs', element: LoginHistory },
+  { path: '/transaction', name: 'Tranaction Report', element: TransactionReport },
   { path: '/addVideo', name: 'Add Video', element: AddVideo },
   { path: '/users', name: 'Users', element: ManageUsers },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },

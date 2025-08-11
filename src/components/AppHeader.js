@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CContainer,
@@ -30,8 +30,12 @@ import { AppHeaderDropdown } from './header/index'
 
 const AppHeader = () => {
   const headerRef = useRef()
+  const location = useLocation()
   const { colorMode, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
-
+  const [pageHeading, setPageHeading] = useState({
+    pageName: 'Dashboard',
+    pageNav: '/dashboard',
+  })
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
@@ -40,8 +44,43 @@ const AppHeader = () => {
       headerRef.current &&
         headerRef.current.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0)
     })
-  }, [])
-
+    setPageNameAndNav()
+  }, [location.pathname])
+  const setPageNameAndNav = () => {
+   
+    switch (true) {
+      case location.pathname.toLowerCase().includes('video'):
+        setPageHeading({
+          pageName: 'Video',
+          pageNav: '/Video',
+        })
+        return;
+      case location.pathname.toLowerCase().includes('user'):
+        setPageHeading({
+          pageName: 'User',
+          pageNav: '/users',
+        })
+        return;
+      case location.pathname.toLowerCase().includes('history'):
+        setPageHeading({
+          pageName: 'Logs',
+          pageNav: '/loginhistory',
+        })
+        return;
+      case location.pathname.toLowerCase().includes('history'):
+        setPageHeading({
+          pageName: 'Reports',
+          pageNav: '/loginhistory',
+        })
+        return;
+      default:
+        setPageHeading({
+          pageName: 'Dashboard',
+          pageNav: '/dashboard',
+        })
+        return;
+    }
+  }
   return (
     <CHeader position="sticky" className="mb-4 p-0" ref={headerRef}>
       <CContainer className="border-bottom px-4" fluid>
@@ -53,14 +92,13 @@ const AppHeader = () => {
         </CHeaderToggler>
         <CHeaderNav className="d-none d-md-flex">
           <CNavItem>
-            <CNavLink to="/dashboard" as={NavLink}>
-              Dashboard
+            <CNavLink to={pageHeading.pageNav} as={NavLink}>
+              {pageHeading.pageName}
             </CNavLink>
           </CNavItem>
-         
         </CHeaderNav>
         <CHeaderNav className="ms-auto">
-        {/*   <CNavItem>
+          {/*   <CNavItem>
             <CNavLink href="#">
               <CIcon icon={cilBell} size="lg" />
             </CNavLink>
@@ -77,7 +115,7 @@ const AppHeader = () => {
           </CNavItem> */}
         </CHeaderNav>
         <CHeaderNav>
-         {/*  <li className="nav-item py-1">
+          {/*  <li className="nav-item py-1">
             <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
           </li> */}
           <CDropdown variant="nav-item" placement="bottom-end">
