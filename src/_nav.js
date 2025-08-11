@@ -75,12 +75,12 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Tranasaction',
-        to: '/transaction',
+        to: '/reporttransaction',
       },
       {
         component: CNavItem,
-        name: 'Add Video',
-        to: '/addVideo',
+        name: 'Revenue',
+        to: '/reportrevenue',
       }
     ],
   },

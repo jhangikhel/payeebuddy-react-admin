@@ -67,10 +67,10 @@ const AppHeader = () => {
           pageNav: '/loginhistory',
         })
         return;
-      case location.pathname.toLowerCase().includes('history'):
+      case location.pathname.toLowerCase().includes('report'):
         setPageHeading({
           pageName: 'Reports',
-          pageNav: '/loginhistory',
+          pageNav: '/reporttransaction',
         })
         return;
       default:
