@@ -17,7 +17,7 @@ const CMS = () => {
         })
     }, [selectedCms])
     const saveData = () => {
-        alert(html)
+      
         if (!html) {
             alert("Please enter text");
             return;
