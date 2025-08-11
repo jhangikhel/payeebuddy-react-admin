@@ -73,6 +73,12 @@ const AppHeader = () => {
           pageNav: '/reporttransaction',
         })
         return;
+      case location.pathname.toLowerCase().includes('cms'):
+        setPageHeading({
+          pageName: 'CMS',
+          pageNav: '/cms',
+        })
+        return;
       default:
         setPageHeading({
           pageName: 'Dashboard',
