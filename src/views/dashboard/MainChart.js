@@ -1,8 +1,19 @@
 import React, { useEffect, useRef } from 'react'
 import { getStyle } from '@coreui/utils'
 import { CChart } from '@coreui/react-chartjs'
+function getMonthFromString(monthNumber){
+   // We use 2000 as a placeholder year and 1 as a placeholder day.
+  // The month number needs to be passed directly as it's 0-indexed.
+  const date = new Date(2000, monthNumber -1, 1);
 
- const ChartBarExample = () => {
+  // Use toLocaleString to get the month name.
+  // 'default' uses the user's default locale.
+  // The options object specifies we want the 'long' form of the month name.
+  const monthName = date.toLocaleString('default', { month: 'long' });
+
+  return monthName;
+}
+const ChartBarExample = ({ totaltranasction }) => {
   const chartRef = useRef(null)
 
   useEffect(() => {
@@ -44,16 +55,26 @@ import { CChart } from '@coreui/react-chartjs'
     }
   }, [])
 
-  const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September'], // 9 labels
-    datasets: [
-      {
-        label: 'GitHub Commits',
-        backgroundColor: '#f87979',
-        borderColor: '#f87979',
-        data: [40, 20, 12, 39, 10, 40, 39, 80, 40],
-      },
-    ],
+  const data = () => {
+    console.log("totaltranasction", totaltranasction)
+    const label = totaltranasction.map(r=>{
+      console.log(getMonthFromString(r._id.month))
+      return `${getMonthFromString(r._id.month)} - ${r._id.year}`
+    });
+    const amount = totaltranasction.map(r=>{
+      return r.totalTransactionAmountMonthWise
+    })
+    return {
+      labels: label, // 9 labels
+      datasets: [
+        {
+          label: 'Transaction Amount ($)',
+          backgroundColor: '#f87979',
+          borderColor: '#f87979',
+          data: amount,
+        },
+      ],
+    }
   }
 
   const options = {

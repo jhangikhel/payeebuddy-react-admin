@@ -55,7 +55,18 @@ import WidgetsDropdown from '../widgets/WidgetsDropdown'
 import MainChart from './MainChart'
 import axios from 'axios'
 import moment from 'moment'
+function getMonthFromString(monthNumber){
+   // We use 2000 as a placeholder year and 1 as a placeholder day.
+  // The month number needs to be passed directly as it's 0-indexed.
+  const date = new Date(2000, monthNumber -1, 1);
 
+  // Use toLocaleString to get the month name.
+  // 'default' uses the user's default locale.
+  // The options object specifies we want the 'long' form of the month name.
+  const monthName = date.toLocaleString('default', { month: 'long' });
+
+  return monthName;
+}
 const Dashboard = () => {
   const [allData, setAllData] = useState({
     users: [],
@@ -86,20 +97,29 @@ const Dashboard = () => {
     <>
       <WidgetsDropdown allData={allData} className="mb-4" />
       <CCard className="mb-4">
-       {/*  <CCardBody>
+         <CCardBody>
           <CRow>
             <CCol sm={5}>
               <h4 id="traffic" className="card-title mb-0">
-                Traffic
+                Transaction 
               </h4>
-              <div className="small text-body-secondary">January - July 2023</div>
+              {
+                allData.totaltranasction.length> 0 &&
+              
+              <div className="small text-body-secondary">{`${getMonthFromString(allData.totaltranasction[0]._id.month)}
+               ${allData.totaltranasction[0]._id.year} - 
+               ${getMonthFromString(allData.totaltranasction[allData.totaltranasction.length-1]._id.month)}
+               ${allData.totaltranasction[allData.totaltranasction.length-1]._id.year}`
+              }              
+             </div>
+}
             </CCol>
             <CCol sm={7} className="d-none d-md-block">
-              <CButton color="primary" className="float-end">
+              {/* <CButton color="primary" className="float-end">
                 <CIcon icon={cilCloudDownload} />
-              </CButton>
+              </CButton> */}
               <CButtonGroup className="float-end me-3">
-                {['Day', 'Month', 'Year'].map((value) => (
+                {['Month'].map((value) => (
                   <CButton
                     color="outline-secondary"
                     key={value}
@@ -112,8 +132,8 @@ const Dashboard = () => {
               </CButtonGroup>
             </CCol>
           </CRow>
-          <MainChart />
-        </CCardBody> */}
+          <MainChart totaltranasction={allData.totaltranasction} />
+        </CCardBody> 
         {/*   <CCardFooter>
           <CRow
             xs={{ cols: 1, gutter: 4 }}
