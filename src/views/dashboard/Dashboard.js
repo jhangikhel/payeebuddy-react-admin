@@ -89,7 +89,9 @@ const Dashboard = () => {
         console.log('RES', res)
         setAllData(res.data)
       })
-      .catch((err) => { })
+      .catch((err) => {
+        console.log("TEST")
+       })
   }
 
 
